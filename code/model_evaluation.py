@@ -39,35 +39,35 @@ def learning_curve(train_sizes, train_scores, test_scores):
     pass
 
 
-def read_records():
+def read_records(data_path):
     NORMAL_TRAFFIC = 0
     MIRAI_ATTACK = 1
     MITM_ATTACK = 2
     SCAN_ATTACK = 3
-    
+    #data_path = "C:\\Master's\\Spring 2020\\Graduate Research Assistanship\\Dataset\\iot-network-intrusion-dataset-CSV-FORMAT\\""
     # Reading File
-    df_benign_new = pd.read_csv("C:\\Master's\\Spring 2020\\Graduate Research Assistanship\\Dataset\\iot-network-intrusion-dataset-CSV-FORMAT\\benign\\benign-dec.csv", usecols = [10,13,28])
+    df_benign_new = pd.read_csv(data_path + "benign\\benign-dec.csv", usecols = [10,13,28])
     df_benign = df_benign_new.head(n=29000)
-    df_mirai_attack_new = pd.read_csv("C:\\Master's\\Spring 2020\\Graduate Research Assistanship\\Dataset\\iot-network-intrusion-dataset-CSV-FORMAT\\mirai\\mirai-ackflooding-1-dec.csv",usecols = [10,13,28]) 
+    df_mirai_attack_new = pd.read_csv(data_path + "mirai\\mirai-ackflooding-1-dec.csv",usecols = [10,13,28]) 
     df_mirai_attack = df_mirai_attack_new.head(n=29000)
-    df_mitm_attack_new = pd.read_csv ("C:\\Master's\\Spring 2020\\Graduate Research Assistanship\\Dataset\\iot-network-intrusion-dataset-CSV-FORMAT\\mitm\\mitm-arpspoofing-1-dec.csv",usecols = [10,13,28]) 
+    df_mitm_attack_new = pd.read_csv (data_path + "mitm\\mitm-arpspoofing-1-dec.csv",usecols = [10,13,28]) 
     df_mitm_attack = df_mitm_attack_new.head(n=29000)
-    df_scan_attack_new = pd.read_csv("C:\\Master's\\Spring 2020\\Graduate Research Assistanship\\Dataset\\iot-network-intrusion-dataset-CSV-FORMAT\\scan\\scan-hostport-1-dec.csv",usecols = [10,13,28]) 
+    df_scan_attack_new = pd.read_csv(data_path + "scan\\scan-hostport-1-dec.csv",usecols = [10,13,28]) 
     df_scan_attack = df_scan_attack_new.head(n=29000)
     '''
-    filenames = glob("C:\\Master's\\Spring 2020\\Graduate Research Assistanship\\Dataset\\iot-network-intrusion-dataset-CSV-FORMAT\\mirai\\mirai-ackflooding-1-dec.csv") 
+    filenames = glob("mirai\\mirai-ackflooding-1-dec.csv") 
     attack_list = list()
     for f in filenames:
         attack_list.append(pd.read_csv(f))
         df_mirai_attack = pd.concat(attack_list, ignore_index=True)
     
-    filenames = glob("C:\\Master's\\Spring 2020\\Graduate Research Assistanship\\Dataset\\iot-network-intrusion-dataset-CSV-FORMAT\\mitm\\mitm-arpspoofing-1-dec.csv") 
+    filenames = glob("mitm\\mitm-arpspoofing-1-dec.csv") 
     attack_list = list()
     for f in filenames:
         attack_list.append(pd.read_csv(f))
         df_mitm_attack = pd.concat(attack_list, ignore_index=True)
     
-    filenames = glob("C:\\Master's\\Spring 2020\\Graduate Research Assistanship\\Dataset\\iot-network-intrusion-dataset-CSV-FORMAT\\scan\\scan-hostport-1-dec.csv") 
+    filenames = glob("scan\\scan-hostport-1-dec.csv") 
     attack_list = list()
     for f in filenames:
         attack_list.append(pd.read_csv(f))
@@ -108,13 +108,14 @@ def train_test_split( df_all):
 def create_model(model):
     if model == SVM_MODEL:
         clf = SVC()
+
     return clf
 
 
 
 def main():
 
-    df_all = read_records()
+    df_all = read_records("C:\\Master's\\GRA\\data\\")
     trainX, trainY, testX, testY = train_test_split(df_all)
     
     clf = create_model(SVM_MODEL)
